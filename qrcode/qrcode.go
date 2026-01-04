@@ -1,7 +1,6 @@
-package main
+package qrcode
 
 import (
-	"flag"
 	"fmt"
 	"os"
 
@@ -9,30 +8,8 @@ import (
 	"github.com/boombuler/barcode/qr"
 )
 
-func main() {
-	content := flag.String("content", "https://itatarchenko.ru", "Данные для кодирования")
-	output := flag.String("output", "qr.svg", "Имя выходного SVG файла")
-	size := flag.Int("size", 200, "Размер изображения (квадрат)")
-	flag.Parse()
-
-	if *content == "" {
-		fmt.Println("Ошибка: содержание QR-кода не может быть пустым")
-		flag.Usage()
-		os.Exit(1)
-	}
-
-	fmt.Printf("Создаём QR-код SVG: \"%s\"n", *content)
-	err := generateQRCode(*content, *output, *size)
-	if err != nil {
-		fmt.Printf("Ошибка: %v\n", err)
-		os.Exit(1)
-	}
-
-	fmt.Printf("QR-код сохранен в %s\n", output)
-}
-
-func generateQRCode(content, filename string, size int) error {
-	qrCode, err := qr.Encode(content, qr.M,qr.Auto)
+func GenerateQRCode(content, filename string, size int) error {
+	qrCode, err := qr.Encode(content, qr.M, qr.Auto)
 	if err != nil {
 		return err
 	}
